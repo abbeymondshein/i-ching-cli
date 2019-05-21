@@ -24,6 +24,12 @@ const locateHexagram = (hex) => {
   console.log("f",found)
   // console.log(hexagrams[0])
 }
+
+
+// ! TODO :  Generate conversions from base hex
+// ! ex: 6's => 7
+// ! 9 => 8
+// ! Presence of 6 or 9 indicates changing lines and two hexagrams as result
 // const printHexagram = () => {
 //   const trigram = generateHexagram();
 //   const toPrint = trigram.slice().reverse();
