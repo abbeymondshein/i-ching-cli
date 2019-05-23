@@ -1,5 +1,5 @@
 // generate coin tosses that combine together to form hexagrams
-const hexagrams = require('./hexagrams')
+const hexagrams = require("./hexagrams");
 
 const toss = () => {
   return Math.floor(Math.random() * 2) === 0 ? 3 : 2;
@@ -7,53 +7,41 @@ const toss = () => {
 const generateLine = () => {
   return toss() + toss() + toss();
 };
+
+const convertHexagrams = hexagram => {
+  let primary = "";
+  let relating = "";
+  for (let i = 0; i < hexagram.length; i++) {
+    if (hexagram[i] === '6') {
+      primary += 8;
+      relating += 7;
+    } else if (hexagram[i] === '9') {
+      primary += 7;
+      relating += 8;
+    } else {
+      primary += hexagram[i];
+      relating += hexagram[i];
+    }
+  }
+  console.log("primary:  ", primary, locateHexagram(primary));
+  console.log("relating:  ", relating, locateHexagram(relating));
+};
+
 const generateHexagram = () => {
   let hexagram = "";
   for (let i = 0; i < 6; i++) {
     hexagram += generateLine();
   }
- locateHexagram(hexagram);
+  convertHexagrams(hexagram);
 };
 
-// console.log(hexagrams)
-const locateHexagram = (hex) => {
-  console.log(hex)
-  const found = hexagrams.find((e) => {
-    console.log(e.pattern)
-    e.pattern === hex});
-  console.log("f",found)
-  // console.log(hexagrams[0])
-}
-
-
-// ! TODO :  Generate conversions from base hex
-// ! ex: 6's => 7
-// ! 9 => 8
-// ! Presence of 6 or 9 indicates changing lines and two hexagrams as result
-// const printHexagram = () => {
-//   const trigram = generateHexagram();
-//   const toPrint = trigram.slice().reverse();
-//   console.log(trigram, toPrint);
-//   for (let i = 0; i < toPrint.length; i++) {
-//     let current = toPrint[i];
-//     switch (current) {
-//       case 6:
-//         console.log("--x-- (6)");
-//         break;
-//       case 7:
-//         console.log("----- (7)");
-//         break;
-//       case 8:
-//         console.log("-- -- (8)");
-//         break;
-//       case 9:
-//         console.log("--0-- (9)");
-//         break;
-//       default:
-//         console.log(`didn't understand ${current}`);
-//     }
-//   }
-// };
+const locateHexagram = hex => {
+  hex = Number(hex);
+  const found = hexagrams.find(e => {
+    return e.pattern === hex
+  });
+  return found;
+};
 
 // console.log(toss());
 // console.log(generateLine());
