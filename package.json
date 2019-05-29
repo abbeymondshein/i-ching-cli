@@ -1,0 +1,22 @@
+{
+  "name": "ichingcli",
+  "version": "1.0.0",
+  "description": "CLI app to cast i-ching",
+  "main": "cast.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abbeymondshein/i-ching-cli.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abbeymondshein/i-ching-cli/issues"
+  },
+  "homepage": "https://github.com/abbeymondshein/i-ching-cli#readme",
+  "dependencies": {
+    "commander": "^2.20.0"
+  }
+}

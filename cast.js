@@ -23,8 +23,10 @@ const convertHexagrams = hexagram => {
       relating += hexagram[i];
     }
   }
-  console.log("primary:  ", primary, locateHexagram(primary));
-  console.log("relating:  ", relating, locateHexagram(relating));
+  // console.log("primary:  ", primary, locateHexagram(primary));
+  // console.log("relating:  ", relating, locateHexagram(relating));
+  logFormat(locateHexagram(primary))
+  logFormat(locateHexagram(relating))
 };
 
 const generateHexagram = () => {
@@ -43,6 +45,15 @@ const locateHexagram = hex => {
   return found;
 };
 
+const logFormat = result => {
+  console.log(`  ${result.symbol}
+  ${result.name.en}, ${result.name.zh}
+  ${result.image}
+  Judgement:
+  ${result.judgment}
+   `)
+
+}
 // console.log(toss());
 // console.log(generateLine());
 console.log(generateHexagram());
