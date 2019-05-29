@@ -4,7 +4,7 @@
   "description": "CLI app to cast i-ching",
   "main": "cast.js",
   "bin": {
-    "iching" : "./cast.js"
+    "iching": "./cast.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -22,6 +22,7 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
-    "gradient-string": "^1.2.0"
+    "gradient-string": "^1.2.0",
+    "ora": "^3.4.0"
   }
 }
