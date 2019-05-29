@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/abbeymondshein/i-ching-cli#readme",
   "dependencies": {
-    "commander": "^2.20.0"
+    "chalk": "^2.4.2",
+    "commander": "^2.20.0",
+    "gradient-string": "^1.2.0"
   }
 }
