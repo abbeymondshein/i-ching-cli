@@ -1,4 +1,4 @@
-// generate coin tosses that combine together to form hexagrams
+#!/usr/bin/env node
 const hexagrams = require("./hexagrams");
 const program = require('commander');
 const c = require('chalk');

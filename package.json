@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "CLI app to cast i-ching",
   "main": "cast.js",
+  "bin": {
+    "iching" : "./cast.js"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
