@@ -5,62 +5,12 @@ const c = require("chalk");
 const g = require("gradient-string");
 const ora = require('ora')
 
-// const spinner = new ora({
-// 	text: 'Loading unicorns',
-// 	spinner: process.argv[2]
-// });
-
-// spinner.start();
-
-// setTimeout(() => {
-// 	spinner.color = 'yellow';
-// 	spinner.text = `Loading ${c.red('rainbows')}`;
-// }, 1000);
-
-// setTimeout(() => {
-// 	spinner.color = 'green';
-// 	spinner.indent = 2;
-// 	spinner.text = 'Loading with indent';
-// }, 2000);
-
-// setTimeout(() => {
-// 	spinner.indent = 0;
-// 	spinner.spinner = 'moon';
-// 	spinner.text = 'Loading with different spinners';
-// }, 3000);
-
-// setTimeout(() => {
-// 	spinner.succeed();
-// }, 4000);
-
-// const spinner = ora('Loading unicorns').start();
-
-// setTimeout(() => {
-//     spinner.spinner = 'flip';
-//     spinner.color = 'yellow';
-//     spinner.text = 'Casting Coins';
-// }, 1000);
-// setTimeout(() => {
-//   spinner.spinner = 'hamburger';
-//   spinner.color = 'white';
-//   spinner.text = 'Generating Hexagrams';
-// }, 2000);
-// setTimeout(() => {
-//   spinner.spinner = 'star';
-//   spinner.color = 'white';
-//   spinner.text = 'Preparing Reading';
-// }, 3000);
-// setTimeout(() => {
-// 	spinner.succeed();
-// }, 4000);
-
 // * Configures options to pass for CLI
 program
 .option("-c, --cast", "Cast reading")
 .description('Consult the I-Ching straight from your Command Line.')
 .parse(process.argv);
 
-// console.log(`You've chosen to:`);
 if (program.cast) {
   const spinner = ora('Consulting the Oracle').start();
 
@@ -109,13 +59,16 @@ const generateHexagram = () => {
 
 const convertHexagrams = hexagram => {
   // * Lines with a value of 6 or 9 are considered "changing" and as a result, a second hexagram is generated
+  let changing = false;
   let primary = "";
   let relating = "";
   for (let i = 0; i < hexagram.length; i++) {
     if (hexagram[i] === "6") {
+      changing = true;
       primary += 8;
       relating += 7;
     } else if (hexagram[i] === "9") {
+      changing = true;
       primary += 7;
       relating += 8;
     } else {
@@ -123,14 +76,13 @@ const convertHexagrams = hexagram => {
       relating += hexagram[i];
     }
   }
-  // console.log("primary:  ", primary, locateHexagram(primary));
-  // console.log("relating:  ", relating, locateHexagram(relating));
-
+  if (changing) {
   logFormat(primary, "Primary")
   logFormat(relating, "Relating")
-  //! refactoring
-  // logFormat(locateHexagram(primary), "Primary");
-  // logFormat(locateHexagram(relating), "Relating");
+  } else {
+    logFormat(primary, "Primary")
+  }
+  return 'Thanks for casting!'
 };
 
 const locateHexagram = hex => {
@@ -142,7 +94,6 @@ const locateHexagram = hex => {
   return found;
 };
 
-// ! refactoring
 const logFormat = (type, label) => {
   const result = locateHexagram(type)
   console.log(`
@@ -154,28 +105,3 @@ const logFormat = (type, label) => {
   ${g.vice.multiline(result.judgment)}
    `);
 };
-
-// ! previous format
-// const logFormat = (result, label) => {
-//   console.log(`
-//   ${c.cyan(label, ":")}
-//   ${c.bgCyan.bold("   ", result.symbol, "   ")}
-//   ${c.bgCyan.underline(result.name.en, result.name.zh)}
-//   ${g.vice.multiline(result.image)}
-//   ${c.bgMagenta("Judgement:")}
-//   ${g.vice.multiline(result.judgment)}
-//    `);
-// };
-
-
-// console.log(generateHexagram());
-
-
-// const findError = () => {
-//   let count = 0;
-//   hexagrams.forEach((e)=>{
-//     count++;
-//     console.log(count,e.pattern)
-//   })
-// }
-// findError()
