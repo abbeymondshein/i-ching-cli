@@ -3,41 +3,39 @@ const hexagrams = require("./hexagrams");
 const program = require("commander");
 const c = require("chalk");
 const g = require("gradient-string");
-const ora = require('ora')
+const ora = require("ora");
 
 // * Configures options to pass for CLI
 program
-.option("-c, --cast", "Cast reading")
-.description('Consult the I-Ching straight from your Command Line.')
-.parse(process.argv);
+  .option("-c, --cast", "Cast reading")
+  .description("Consult the I-Ching straight from your Command Line.")
+  .parse(process.argv);
 
 if (program.cast) {
-  const spinner = ora('Consulting the Oracle').start();
+  const spinner = ora("Consulting the Oracle").start();
 
-setTimeout(() => {
-    spinner.spinner = 'flip';
-    spinner.color = 'yellow';
-    spinner.text = 'Casting Coins';
-}, 1000);
-setTimeout(() => {
-  spinner.spinner = 'hamburger';
-  spinner.color = 'white';
-  spinner.text = 'Generating Hexagrams';
-}, 2000);
-setTimeout(() => {
-  spinner.spinner = 'star';
-  spinner.color = 'white';
-  spinner.text = 'Delivering Reading';
-}, 3000);
-setTimeout(() => {
-	spinner.succeed();
-}, 4000);
-setTimeout(()=>{
-  console.log(generateHexagram())
-}, 4500)
-
+  setTimeout(() => {
+    spinner.spinner = "flip";
+    spinner.color = "yellow";
+    spinner.text = "Casting Coins";
+  }, 1000);
+  setTimeout(() => {
+    spinner.spinner = "hamburger";
+    spinner.color = "white";
+    spinner.text = "Generating Hexagrams";
+  }, 2000);
+  setTimeout(() => {
+    spinner.spinner = "star";
+    spinner.color = "white";
+    spinner.text = "Delivering Reading";
+  }, 3000);
+  setTimeout(() => {
+    spinner.succeed();
+  }, 4000);
+  setTimeout(() => {
+    return generateHexagram();
+  }, 4500);
 }
-
 
 const toss = () => {
   // * traditional calculations to generate i-ching from coin flips assign 'heads' the value of 3 and 'tails' the value of two.
@@ -77,12 +75,11 @@ const convertHexagrams = hexagram => {
     }
   }
   if (changing) {
-  logFormat(primary, "Primary")
-  logFormat(relating, "Relating")
+    logFormat(primary, "Primary");
+    logFormat(relating, "Relating");
   } else {
-    logFormat(primary, "Primary")
+    logFormat(primary, "Primary");
   }
-  return 'Thanks for casting!'
 };
 
 const locateHexagram = hex => {
@@ -90,12 +87,11 @@ const locateHexagram = hex => {
   const found = hexagrams.find(e => {
     return e.pattern === hex;
   });
-  if (!found) console.log(hex)
   return found;
 };
 
 const logFormat = (type, label) => {
-  const result = locateHexagram(type)
+  const result = locateHexagram(type);
   console.log(`
   ${c.cyan(label, ":")}
   ${c.bgCyan.bold("   ", result.symbol, "   ")}
