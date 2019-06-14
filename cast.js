@@ -5,6 +5,11 @@ const c = require("chalk");
 const g = require("gradient-string");
 const ora = require("ora");
 
+// * To cast your fortune, use 'iching --cast', 'iching -c', or use 'iching -h' for to access the help menu."
+console.log(`To cast your fortune: use 'iching --cast' or 'iching -c'
+To acces the help menu: use 'iching -h'or 'iching'
+`)
+
 // * Configures options to pass for CLI
 program
   .option("-c, --cast", "Cast reading")
