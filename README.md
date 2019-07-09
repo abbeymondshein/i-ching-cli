@@ -19,7 +19,7 @@ It's never been easier to consult the I-Ching. This app programmatically generat
 > after cloning, install dependencies
 
 ```shell
-$ npm install
+$ npm install -g .
 ```
 
 > cast your fortune using any of the following commands:
