@@ -7,7 +7,7 @@ const ora = require("ora");
 
 console.log(`To cast: call 'iching -c' or 'iching --cast
 Help menu: call 'iching -h' or 'iching --help'
-`)
+`);
 
 // * Configures options to pass for CLI
 program
@@ -59,6 +59,8 @@ const generateHexagram = () => {
   convertHexagrams(hexagram);
 };
 
+let changingLines = [];
+
 const convertHexagrams = hexagram => {
   // * Lines with a value of 6 or 9 are considered "changing" and as a result, a second hexagram is generated
   let changing = false;
@@ -67,13 +69,16 @@ const convertHexagrams = hexagram => {
   for (let i = 0; i < hexagram.length; i++) {
     if (hexagram[i] === "6") {
       changing = true;
+      changingLines.push(1);
       primary += 8;
       relating += 7;
     } else if (hexagram[i] === "9") {
       changing = true;
+      changingLines.push(1);
       primary += 7;
       relating += 8;
     } else {
+      changingLines.push(0);
       primary += hexagram[i];
       relating += hexagram[i];
     }
@@ -91,17 +96,35 @@ const locateHexagram = hex => {
   const found = hexagrams.find(e => {
     return e.pattern === hex;
   });
+  // console.log(found, "found");
   return found;
 };
 
+const locateChangingLines = (label, foundHex, changingLines) => {
+  let foundChangingLines = [];
+  console.log(label);
+  if (label === "Primary") {
+    for (let i = 0; i < changingLines.length; i++) {
+      if (changingLines[i] === 1) {
+        foundChangingLines.push(`${i + 1}: ${foundHex.lines[i]} \n`);
+      }
+    }
+  }
+  //TODO: add preface at beginning
+  return foundChangingLines;
+};
+
 const logFormat = (type, label) => {
+  console.log(type, label);
   const result = locateHexagram(type);
   console.log(`
   ${c.cyan(label, ":")}
-  ${c.bgCyan.bold("   ", result.symbol, "   ")}
-  ${c.bgCyan.underline(result.name.en, result.name.zh)}
+  ${c.bgCyan.bold("   ", result.number, ": ", result.symbol, "   ")}
+  ${c.bgCyan.bold.underline(result.name.en, result.name.zh)}
   ${g.vice.multiline(result.image)}
-  ${c.bgMagenta("Judgement:")}
+  ${c.bgMagenta.bold("Changing Lines:")}
+  ${locateChangingLines(label, result, changingLines)}
+  ${c.bgMagenta.bold("Judgement:")}
   ${g.vice.multiline(result.judgment)}
    `);
 };
