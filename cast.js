@@ -102,11 +102,11 @@ const locateHexagram = hex => {
   return found;
 };
 
-const pairDefinition = hex => {
+const pairProperty = (hex, property) => {
   const additional = vHexagrams.find(e => {
     if (e.HexagramNum === hex ) return e;
   })
-  return additional.meaning;
+  return additional[property];
 }
 
 const locateChangingLines = (label, foundHex, changingLines) => {
@@ -126,17 +126,18 @@ const locateChangingLines = (label, foundHex, changingLines) => {
 const logFormat = (type, label) => {
   // console.log(type, label);
   const result = locateHexagram(type);
-  const additionalMeaning = pairDefinition(result.number)
-  const redToBlue = g('red', 'blue');
+  const additionalMeaning = pairProperty(result.number, 'meaning')
+  const additionalNaming = pairProperty(result.number, 'title').split(':').slice(1)
   const bar = '█'.repeat(60);
   console.log(`
   ${c.rgb(192,192,192)(label, ":")}
   ${c.rgb(0,255,0).bold("   ", result.number, ": ", result.symbol, "   ")}
-  ${c.bgRgb(0,250,0).rgb(0,0,0).bold.underline('   ',result.name.en, result.name.zh,'   ')}
+  ${c.bgRgb(0,250,0).rgb(0,0,0).bold.underline('  ',additionalNaming, result.name.zh,'   ')}
   ${g(['rgb(192,192,192)','rgb(0,255,0)'])(additionalMeaning)}
-  ${g(['rgb(192,192,192)','rgb(0,255,0)'])(bar)}
+  ${label==='Relating' ? g(['rgb(192,192,192)','rgb(0,255,0)'])(bar) : ''}
   `);
 
+  // const redToBlue = g('red', 'blue');
   // ${redToBlue(bar, {interpolation: 'hsv', hsvSpin: 'long'})}
   // ${g.vice.multiline(result.image)}
   // ${c.bgMagenta.bold("Changing Lines:")}
