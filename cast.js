@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 const hexagrams = require("./hexagrams");
+const vHexagrams = require("./vHexagrams");
 const program = require("commander");
 const c = require("chalk");
 const g = require("gradient-string");
 const ora = require("ora");
+const log = console.log;
 
 console.log(`To cast: call 'iching -c' or 'iching --cast
 Help menu: call 'iching -h' or 'iching --help'
@@ -96,9 +98,16 @@ const locateHexagram = hex => {
   const found = hexagrams.find(e => {
     return e.pattern === hex;
   });
-  // console.log(found, "found");
+
   return found;
 };
+
+const pairDefinition = hex => {
+  const additional = vHexagrams.find(e => {
+    if (e.HexagramNum === hex ) return e;
+  })
+  return additional.meaning;
+}
 
 const locateChangingLines = (label, foundHex, changingLines) => {
   let foundChangingLines = [];
@@ -115,16 +124,34 @@ const locateChangingLines = (label, foundHex, changingLines) => {
 };
 
 const logFormat = (type, label) => {
-  console.log(type, label);
+  // console.log(type, label);
   const result = locateHexagram(type);
+  const additionalMeaning = pairDefinition(result.number)
+  const redToBlue = g('red', 'blue');
+  const bar = '█'.repeat(60);
   console.log(`
-  ${c.cyan(label, ":")}
-  ${c.bgCyan.bold("   ", result.number, ": ", result.symbol, "   ")}
-  ${c.bgCyan.bold.underline(result.name.en, result.name.zh)}
-  ${g.vice.multiline(result.image)}
-  ${c.bgMagenta.bold("Changing Lines:")}
-  ${locateChangingLines(label, result, changingLines)}
-  ${c.bgMagenta.bold("Judgement:")}
-  ${g.vice.multiline(result.judgment)}
-   `);
+  ${c.rgb(192,192,192)(label, ":")}
+  ${c.rgb(0,255,0).bold("   ", result.number, ": ", result.symbol, "   ")}
+  ${c.bgRgb(0,250,0).rgb(0,0,0).bold.underline('   ',result.name.en, result.name.zh,'   ')}
+  ${g(['rgb(192,192,192)','rgb(0,255,0)'])(additionalMeaning)}
+  ${g(['rgb(192,192,192)','rgb(0,255,0)'])(bar)}
+  `);
+
+  // ${redToBlue(bar, {interpolation: 'hsv', hsvSpin: 'long'})}
+  // ${g.vice.multiline(result.image)}
+  // ${c.bgMagenta.bold("Changing Lines:")}
+  //  ${locateChangingLines(label, result, changingLines)}
+  // ${c.bgMagenta.bold("Judgement:")}
+  // ${g.vice.multiline(result.judgment)}
+
+
+// Standard RGB gradient
+// console.log(redToBlue(bar));
+
+// Short HSV gradient: red -> yellow -> green
+// console.log(redToBlue(bar, {interpolation: 'hsv'}).concat(g('blue', 'red')(bar, {interpolation: 'hsv'})));
+// log(g('blue', 'red')(bar, {interpolation: 'hsv'}).concat(redToBlue(bar, {interpolation: 'hsv'})));
+
+// Long HSV gradient: red -> magenta -> blue -> cyan -> green
+// console.log(redToBlue(bar, {interpolation: 'hsv', hsvSpin: 'long'}));
 };
